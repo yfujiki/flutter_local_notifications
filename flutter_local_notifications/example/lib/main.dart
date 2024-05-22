@@ -1790,9 +1790,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _repeatNotification() async {
-    const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
-        'repeating channel id', 'repeating channel name',
-        channelDescription: 'repeating description');
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+            'repeating channel id', 'repeating channel name',
+            channelDescription: 'repeating description',
+            importance: Importance.high,
+            priority: Priority.high,
+            autoCancel: false);
     const NotificationDetails notificationDetails =
         NotificationDetails(android: androidNotificationDetails);
     await flutterLocalNotificationsPlugin.periodicallyShow(
