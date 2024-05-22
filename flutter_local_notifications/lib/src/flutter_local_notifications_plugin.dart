@@ -470,6 +470,7 @@ class FlutterLocalNotificationsPlugin {
     Duration repeatDurationInterval,
     NotificationDetails notificationDetails, {
     String? payload,
+    DateTime? androidStartingAt,
     @Deprecated('Deprecated in favor of the androidScheduleMode parameter')
     bool androidAllowWhileIdle = false,
     AndroidScheduleMode? androidScheduleMode,
@@ -484,6 +485,7 @@ class FlutterLocalNotificationsPlugin {
               id, title, body, repeatDurationInterval,
               notificationDetails: notificationDetails.android,
               payload: payload,
+              startingAt: androidStartingAt,
               scheduleMode: _chooseScheduleMode(
                   androidScheduleMode, androidAllowWhileIdle));
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {

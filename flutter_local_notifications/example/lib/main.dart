@@ -430,7 +430,15 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                     PaddedElevatedButton(
-                      buttonText: 'Schedule daily 10:00:00 am notification in your '
+                      buttonText:
+                          'Repeat notification every 5 minutes starting from 10 minutes from now',
+                      onPressed: () async {
+                        await _repeatPeriodicallyWithDuratioFromSpecificTimeNotification();
+                      },
+                    ),
+                    PaddedElevatedButton(
+                      buttonText:
+                          'Schedule daily 10:00:00 am notification in your '
                           'local time zone',
                       onPressed: () async {
                         await _scheduleDailyTenAMNotification();
@@ -1798,17 +1806,49 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _repeatPeriodicallyWithDurationNotification() async {
-    const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
-        'repeating channel id', 'repeating channel name',
-        channelDescription: 'repeating description');
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails('repeating with duration channel id',
+            'repeating with duration channel name',
+            channelDescription: 'repeating with duration description',
+            importance: Importance.high,
+            priority: Priority.high,
+            autoCancel: false);
     const NotificationDetails notificationDetails =
-    NotificationDetails(android: androidNotificationDetails);
+        NotificationDetails(android: androidNotificationDetails);
     await flutterLocalNotificationsPlugin.periodicallyShowWithDuration(
       id++,
-      'repeating period title',
-      'repeating period body',
+      'repeating with duration title',
+      'repeating with duration body',
       const Duration(minutes: 5),
       notificationDetails,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    );
+  }
+
+  Future<void>
+      _repeatPeriodicallyWithDuratioFromSpecificTimeNotification() async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+            'repeating with duration from specific time channel id',
+            'repeating with duration from specific time channel name',
+            channelDescription:
+                'repeating with duration from specific time description',
+            importance: Importance.high,
+            priority: Priority.high,
+            autoCancel: false);
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+
+    final DateTime now = DateTime.now();
+    final DateTime tenMinutesFromNow = now.add(const Duration(minutes: 10));
+
+    await flutterLocalNotificationsPlugin.periodicallyShowWithDuration(
+      id++,
+      'repeating with duration title',
+      'repeating with duration body',
+      const Duration(minutes: 5),
+      notificationDetails,
+      androidStartingAt: tenMinutesFromNow,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }

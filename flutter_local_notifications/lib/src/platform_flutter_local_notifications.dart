@@ -354,15 +354,19 @@ class AndroidFlutterLocalNotificationsPlugin
     Duration repeatDurationInterval, {
     AndroidNotificationDetails? notificationDetails,
     String? payload,
+    DateTime? startingAt,
     AndroidScheduleMode scheduleMode = AndroidScheduleMode.exact,
   }) async {
     validateId(id);
+
+    final DateTime specificDateTime = startingAt ?? clock.now();
+
     await _channel
         .invokeMethod('periodicallyShowWithDuration', <String, Object?>{
       'id': id,
       'title': title,
       'body': body,
-      'calledAt': clock.now().millisecondsSinceEpoch,
+      'calledAt': specificDateTime.millisecondsSinceEpoch,
       'repeatIntervalMilliseconds': repeatDurationInterval.inMilliseconds,
       'platformSpecifics':
           _buildPlatformSpecifics(notificationDetails, scheduleMode),
