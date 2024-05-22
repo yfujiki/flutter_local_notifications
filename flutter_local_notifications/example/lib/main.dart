@@ -1848,8 +1848,8 @@ class _HomePageState extends State<HomePage> {
 
     await flutterLocalNotificationsPlugin.periodicallyShowWithDuration(
       id++,
-      'repeating with duration title',
-      'repeating with duration body',
+      'repeating with duration from specific time title',
+      'repeating with duration from specific time body',
       const Duration(minutes: 5),
       notificationDetails,
       androidStartingAt: tenMinutesFromNow,
